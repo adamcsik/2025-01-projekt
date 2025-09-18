@@ -1,16 +1,18 @@
-# This is a sample Python script.
+import p03
+szam = 10
+while szam > 2:
+    szam -= 1
+    if szam == 4:
+        continue
+    if szam == 3:
+        break
+    print(szam)
+else:
+    print("Vége a ciklusnak")
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+while True:
+    szam += 1
+    print(szam)
+    if szam == 30:
+        break
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
