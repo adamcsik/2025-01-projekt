@@ -1,5 +1,25 @@
 # 3. alkalom
 
+'''import p03
+
+szam = 10
+while szam > 2:
+    szam -= 1
+    if szam == 4:
+        continue
+    if szam == 3:
+        break
+    print(szam)
+else:
+    print("Vége a ciklusnak")
+
+while True:
+    szam += 1
+    print(szam)
+    if szam == 30:
+        break
+'''
+
 def szam_bekerese(legnagyobb_szam):
     szam = input("Kérek egy számot:")
     if szam.isdigit():
@@ -25,7 +45,7 @@ def szamologep():
     elif muvelet == "*":
         eredmeny = egyik_szam * masik_szam
     else:
-        eredmeny = egyik_szam / masik_szam
+       eredmeny = egyik_szam / masik_szam
     print(f"Az eredmény: {egyik_szam} {muvelet} {masik_szam} = {eredmeny}")
 
 def veletlenszam(max):

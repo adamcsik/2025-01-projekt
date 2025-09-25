@@ -1,18 +1,9 @@
-import p03
-szam = 10
-while szam > 2:
-    szam -= 1
-    if szam == 4:
-        continue
-    if szam == 3:
-        break
-    print(szam)
+try:
+    eredmeny = 10 / ertek
+except ZeroDivisionError:
+    print("HIBA: Nullával való osztás")
+except NameError:
+    print("HIBA: névhiba")
 else:
-    print("Vége a ciklusnak")
-
-while True:
-    szam += 1
-    print(szam)
-    if szam == 30:
-        break
+    print(eredmeny)
 
