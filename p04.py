@@ -73,6 +73,7 @@ def dobas():
 
 ablak = turtle.Screen()
 
+dobas()
 turtle.onkey(dobas, "d")
 turtle.onkey(turtle.bye,"Escape")
 
