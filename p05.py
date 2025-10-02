@@ -54,17 +54,17 @@ class MozgoPont(turtle.Turtle):
 
 
 tegla = Teglalap(20, 15)
-print(tegla.adatok())
+tegla.adatok()
 print("A kerülete = ", tegla.kerulet())
 print("A területe = ", tegla.terulet())
 print()
 
 negy = Negyzet(8)
-print(negy.adatok())
+negy.adatok()
 print("A kerülete = ", negy.kerulet())
 print("A területe = ", negy.terulet())
 print()
 
 harom = Haromszog()
-print(harom.adatok())
+harom.adatok()
 print("A területe = ", harom.terulet())
