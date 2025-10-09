@@ -53,7 +53,7 @@ class MozgoPont(turtle.Turtle):
         self.forward(self.sebesseg)
 
 
-tegla = Teglalap(20, 15)
+'''tegla = Teglalap(20, 15)
 tegla.adatok()
 print("A kerülete = ", tegla.kerulet())
 print("A területe = ", tegla.terulet())
@@ -67,4 +67,4 @@ print()
 
 harom = Haromszog()
 harom.adatok()
-print("A területe = ", harom.terulet())
+print("A területe = ", harom.terulet())'''
