@@ -15,8 +15,6 @@ def dobas(dobasok):
         f"5 - {eredmenyek[5]} \n"
         f"6 - {eredmenyek[6]}"
     )
-    # print(eredmenyek)
-    #eredmeny_cimke_szovege.set(f"A dobás: {szam}")
 
 def on_dobas():
     try:
@@ -45,10 +43,11 @@ gomb.grid(row=1, column=2, pady=20)
 eredmeny_cimke_szovege = tk.StringVar(value="......")
 eredmeny_cimke = tk.Label(root, textvariable=eredmeny_cimke_szovege, font=("Ariel", 16))
 eredmeny_cimke.grid(row=2, column=1, pady=20)
-# eredmeny_cimke.pack(pady=20)
 
 kilepes = tk.Button(root, text="Kilépés", command=root.destroy, bg="red")
-kilepes.grid(row=3, column=1, pady=20)
+kilepes.grid(row=1, column=3, pady=20, padx=40)
 #kilepes.pack()
+
+on_dobas()
 
 tk.mainloop()
