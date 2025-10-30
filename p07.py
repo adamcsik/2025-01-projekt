@@ -6,7 +6,7 @@ class KockaDobas:
     def __init__(self, master):
         self.master = master
         self.master.title("Kockadobások statisztikája")
-        self.master.geometry("600x400")
+        self.master.geometry("600x500")
 
         self.dobasok_szama = 10
         self.eredmenyek = [0 for _ in range(7)]
