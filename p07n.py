@@ -17,11 +17,14 @@ class KockaDobasMentes(p07.KockaDobas):
         self.mentes_sql = tk.Button(master, text="Mentés SQL-be", command=self.mentes_sql)
         self.mentes_sql.grid(row=3, column=2)
 
-
+        # Összesítés címke
+        self.osszes_cimke_szovege = tk.StringVar(value="......")
+        self.osszes_cimke = tk.Label(self.master, textvariable=self.osszes_cimke_szovege, font=("Ariel", 16))
+        self.osszes_cimke.grid(row=2, column=2, pady=20)
 
     def mentes_sql(self):
         try:
-            conn = sqlite3.connect("kokadobas.db")
+            conn = sqlite3.connect("kockadobas.db")
             db = conn.cursor()
             db.execute("CREATE TABLE IF NOT EXISTS kocka (dobasok INT, egy INT, ket INT, ha INT, negy INT,  ot INT, hat INT)")
             db.execute("INSERT INTO kocka VALUES (?, ?, ?, ?, ?, ?, ?)", (self.dobasok_szama,
@@ -34,9 +37,36 @@ class KockaDobasMentes(p07.KockaDobas):
                        )
             conn.commit()
             conn.close()
+            self.osszesites_sql()
         except:
             messagebox.showerror("Hiba", "Nem sikerült az SQL-be mentés!")
 
+    def osszesites_sql(self):
+        try:
+            conn = sqlite3.connect("kockadobas.db")
+            db = conn.cursor()
+            db.execute("SELECT egy, ket, ha, negy, ot, hat FROM kocka")
+            sorok = db.fetchall()
+            osszesen = [0 for _ in range(7)]
+            for sor in sorok:
+                osszesen[1] += sor[0]
+                osszesen[2] += sor[1]
+                osszesen[3] += sor[2]
+                osszesen[4] += sor[3]
+                osszesen[5] += sor[4]
+                osszesen[6] += sor[5]
+            conn.close()
+
+            self.osszes_cimke_szovege.set(
+                f"1 - {osszesen[1]} \n"
+                f"2 - {osszesen[2]} \n"
+                f"3 - {osszesen[3]} \n"
+                f"4 - {osszesen[4]} \n"
+                f"5 - {osszesen[5]} \n"
+                f"6 - {osszesen[6]}"
+            )
+        except:
+            messagebox.showerror("Hiba", "Nem sikerült az SQL-be mentés!")
 
     def mentes_csvbe(self):
         fajlnev = "mentes.csv"

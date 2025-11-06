@@ -41,7 +41,7 @@ class KockaDobas:
 
     def dobas(self, dobasok):
         """A dobások elvégzése és az eredmény frissítése"""
-        #eredmenyek = [0 for _ in range(7)]
+        #self.eredmenyek = [0 for _ in range(7)]
         for _ in range(dobasok):
             szam = random.randint(1, 6)
             self.eredmenyek[szam] += 1
