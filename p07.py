@@ -3,7 +3,7 @@ from tkinter import messagebox
 import random
 
 class KockaDobas:
-    def __init__(self, master):
+    def __init__(self, master, auto_roll=False):
         self.master = master
         self.master.title("Kockadobások statisztikája")
         self.master.geometry("600x500")
@@ -34,13 +34,13 @@ class KockaDobas:
         self.kilepes.grid(row=1, column=3, pady=20, padx=40)
 
         # Alapértelmezett dobás
-        self.on_dobas()
+        if auto_roll:
+            self.on_dobas()
 
         # Fő ciklus indítása
         # self.master.mainloop()
 
     def dobas(self, dobasok):
-        """A dobások elvégzése és az eredmény frissítése"""
         #self.eredmenyek = [0 for _ in range(7)]
         for _ in range(dobasok):
             szam = random.randint(1, 6)
@@ -56,7 +56,6 @@ class KockaDobas:
         )
 
     def on_dobas(self):
-        """A dobás gomb eseménykezelője"""
         try:
             self.dobasok_szama = int(self.dobasok_szama_bemenet.get())
             self.dobas(self.dobasok_szama)
@@ -67,7 +66,6 @@ class KockaDobas:
 # Program indítása
 if __name__ == "__main__":
     root = tk.Tk()
-    app = KockaDobas(root)
+    app = KockaDobas(root, auto_roll=True)
     root.mainloop()
-
 

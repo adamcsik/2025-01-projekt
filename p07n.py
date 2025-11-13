@@ -2,21 +2,21 @@ import csv
 import sqlite3
 import tkinter as tk
 from tkinter import messagebox
-
 import p07
 
 class KockaDobasMentes(p07.KockaDobas):
-    def __init__(self, master):  # <-- itt volt a hiba
-        super().__init__(master)
-        self.mentes_txt = tk.Button(master, text="Mentés txt fájlba", command=self.mentes_txtbe)
+    def __init__(self, master, auto_roll=False):
+        super().__init__(master, auto_roll=auto_roll)
+
+        """self.mentes_txt = tk.Button(self.master, text="Mentés txt fájlba", command=self.mentes_txtbe)
         self.mentes_txt.grid(row=3, column=0, pady=10)
 
-        self.mentes_csv = tk.Button(master, text="Mentés csv fájléba", command=self.mentes_csvbe)
+        self.mentes_csv = tk.Button(self.master, text="Mentés csv fájléba", command=self.mentes_csvbe)
         self.mentes_csv.grid(row=3, column=1)
 
-        self.mentes_sql = tk.Button(master, text="Mentés SQL-be", command=self.mentes_sql)
+        self.mentes_sql = tk.Button(self.master, text="Mentés SQL-be", command=self.mentes_sql)
         self.mentes_sql.grid(row=3, column=2)
-
+        """
         # Összesítés címke
         self.osszes_cimke_szovege = tk.StringVar(value="......")
         self.osszes_cimke = tk.Label(self.master, textvariable=self.osszes_cimke_szovege, font=("Ariel", 16))
@@ -26,7 +26,8 @@ class KockaDobasMentes(p07.KockaDobas):
         try:
             conn = sqlite3.connect("kockadobas.db")
             db = conn.cursor()
-            db.execute("CREATE TABLE IF NOT EXISTS kocka (dobasok INT, egy INT, ket INT, ha INT, negy INT,  ot INT, hat INT)")
+            db.execute(
+                "CREATE TABLE IF NOT EXISTS kocka (dobasok INT, egy INT, ket INT, ha INT, negy INT,  ot INT, hat INT)")
             db.execute("INSERT INTO kocka VALUES (?, ?, ?, ?, ?, ?, ?)", (self.dobasok_szama,
                                                                           self.eredmenyek[1],
                                                                           self.eredmenyek[2],
@@ -91,5 +92,5 @@ class KockaDobasMentes(p07.KockaDobas):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = KockaDobasMentes(root)
+    app = KockaDobasMentes(root, auto_roll=True)
     root.mainloop()
