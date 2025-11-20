@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kockadobás – Webes frontend</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    .row { display: flex; gap: 12px; align-items: center; margin: 12px 0; flex-wrap: wrap; }
+    label { font-weight: 600; }
+    input[type="number"] { width: 120px; padding: 6px 8px; }
+    button { padding: 8px 12px; cursor: pointer; border: 1px solid #ccc; border-radius: 8px; background: #f6f6f6; }
+    button:hover { background: #eee; }
+    .card { border: 1px solid #e5e5e5; border-radius: 12px; padding: 16px; margin-top: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(160px, 1fr)); gap: 8px 16px; }
+    .muted { color: #666; }
+    .ok { color: #0a7; }
+    .err { color: #c00; }
+  </style>
+</head>
+<body>
+  <h1>Kockadobás – Webes frontend</h1>
+
+  <div class="row">
+    <label for="db">Dobások száma:</label>
+    <input id="db" type="number" min="1" value="10" />
+    <button id="btnRoll">Dobás (API)</button>
+    <button id="btnSum">Összesítés (API)</button>
+    <button id="btnData">Lekérés (/api/data)</button>
+    <span id="msg" class="muted"></span>
+  </div>
+
+  <div class="card">
+    <h3>Eredmény (utolsó dobás)</h3>
+    <pre id="resRoll" class="mono">–</pre>
+  </div>
+
+  <div class="card">
+    <h3>Összesítés (SQL-ből)</h3>
+    <div id="resSum" class="grid muted">–</div>
+  </div>
+
+  <div class="card">
+    <h3>API /api/data</h3>
+    <pre id="resData" class="mono">–</pre>
+  </div>
+
+  <script>
+    const q = sel => document.querySelector(sel);
+    const msg = q('#msg');
+    const dbInput = q('#db');
+    const resRoll = q('#resRoll');
+    const resSum = q('#resSum');
+    const resData = q('#resData');
+
+    function setMsg(text, ok=false) {
+      msg.textContent = text || '';
+      msg.className = ok ? 'ok' : (text ? 'err' : 'muted');
+    }
+
+    async function apiGet(path) {
+      const url = path.startsWith('http') ? path : `${location.origin}${path}`;
+      const r = await fetch(url);
+      if (!r.ok) {
+        const txt = await r.text().catch(()=> '');
+        throw new Error(`HTTP ${r.status} – ${txt || r.statusText}`);
+      }
+      return r.json();
+    }
+
+    q('#btnRoll').addEventListener('click', async () => {
+      const n = parseInt(dbInput.value, 10);
+      if (!Number.isFinite(n) || n <= 0) {
+        setMsg('A dobások száma legyen pozitív egész!', false);
+        return;
+      }
+      try {
+        setMsg('Dobás folyamatban…', true);
+        const data = await apiGet(`/api/dobas/${n}`);
+        const arr = data?.eredmenyek;
+        if (!Array.isArray(arr) || arr.length !== 6) throw new Error('Váratlan válasz');
+        resRoll.textContent = arr.map((v, i) => `${i+1} - ${v}`).join('\n');
+        setMsg('Sikeres dobás és mentés az SQL-be.', true);
+      } catch (e) {
+        setMsg(`Hiba: ${e.message}`, false);
+      }
+    });
+
+    q('#btnSum').addEventListener('click', async () => {
+      try {
+        setMsg('Összesítés lekérése…', true);
+        const data = await apiGet('/api/osszesites');
+        const arr = data?.osszesites;
+        if (!Array.isArray(arr) || arr.length !== 6) throw new Error('Váratlan válasz');
+        resSum.classList.remove('muted');
+        resSum.innerHTML = arr.map((v, i) => `<div>${i+1} - <strong>${v}</strong></div>`).join('');
+        setMsg('Összesítés frissítve.', true);
+      } catch (e) {
+        setMsg(`Hiba: ${e.message}`, false);
+      }
+    });
+
+    q('#btnData').addEventListener('click', async () => {
+      try {
+        setMsg('Adat lekérése…', true);
+        const data = await apiGet('/api/data');
+        resData.textContent = JSON.stringify(data, null, 2);
+        // opcionálisan: a /api/data "uzenet" értékét írd vissza a mezőbe
+        if (typeof data?.uzenet !== 'undefined') dbInput.value = data.uzenet;
+        setMsg('Kész.', true);
+      } catch (e) {
+        setMsg(`Hiba: ${e.message}`, false);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import random
 import sqlite3
 
@@ -13,6 +13,10 @@ def init_db():
 
 
 app = Flask(__name__)
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 @app.route("/api/data")
 def get_data():
     szam = random.randint(10, 500)
@@ -50,4 +54,4 @@ def dobas(dbszam):
 
 if __name__ == "__main__":
     init_db()
-    app.run(port=5000)
+    app.run(host="0.0.0.0", port=5000)
